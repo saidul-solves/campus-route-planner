@@ -59,24 +59,47 @@ function loadData() {
   }
 }
 
+// এই ফাংশনে আপনার দেওয়া নতুন ডাটা সেট করা হয়েছে
 function loadSampleData() {
+  // আপনার দেওয়া জায়গাগুলোর লিস্ট
   places = [
-    "DIU Main Gate",
-    "Academic Building",
-    "Library",
-    "Canteen",
-    "Auditorium",
-    "Lab Complex"
+    "Gate",          // ইনডেক্স 0
+    "AB4",           // ইনডেক্স 1
+    "Green Garden",  // ইনডেক্স 2
+    "Food court",    // ইনডেক্স 3
+    "Civil",         // ইনডেক্স 4
+    "AB3",           // ইনডেক্স 5
+    "Annex 1"        // ইনডেক্স 6
   ];
   initializeGraph();
 
-  addEdgeRaw(0, 1, 4);
-  addEdgeRaw(1, 2, 3);
-  addEdgeRaw(1, 3, 2);
-  addEdgeRaw(2, 4, 5);
-  addEdgeRaw(3, 4, 4);
-  addEdgeRaw(3, 5, 6);
-  addEdgeRaw(4, 5, 2);
+  // Gate (0) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(0, 1, 7);   // Gate -> AB4
+  addEdgeRaw(0, 2, 20);  // Gate -> Green Garden
+  addEdgeRaw(0, 3, 5);   // Gate -> Food court
+  addEdgeRaw(0, 4, 50);  // Gate -> Civil
+  addEdgeRaw(0, 5, 13);  // Gate -> AB3
+
+  // AB4 (1) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(1, 6, 10);  // AB4 -> Annex 1
+  addEdgeRaw(1, 4, 25);  // AB4 -> Civil
+  addEdgeRaw(1, 2, 25);  // AB4 -> Green Garden
+  addEdgeRaw(1, 5, 25);  // AB4 -> AB3
+
+  // Annex 1 (6) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(6, 4, 15);  // Annex 1 -> Civil
+
+  // Green Garden (2) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(2, 3, 13);  // Green Garden -> Food court
+  addEdgeRaw(2, 5, 5);   // Green Garden -> AB3
+  addEdgeRaw(2, 4, 18);  // Green Garden -> Civil
+
+  // Food court (3) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(3, 5, 5);   // Food court -> AB3
+  addEdgeRaw(3, 4, 50);  // Food court -> Civil
+
+  // AB3 (5) থেকে অন্যান্য জায়গার দূরত্ব
+  addEdgeRaw(5, 4, 30);  // AB3 -> Civil
 
   saveData();
 }
@@ -609,10 +632,7 @@ function deletePlaceModal() {
   };
 }
 
-// এই ফাংশনটি আপডেট করা হয়েছে যেন ডাটা মুছে না যায়
 function resetData() {
-  // আগের কোড: localStorage.removeItem(STORAGE_KEY); (এটি ডিলিট করে দেওয়া হয়েছে)
-  
   selectedNodes = [];
   clearHighlights();
   render();
