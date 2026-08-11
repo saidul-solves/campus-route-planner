@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Route Planner</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">GRAPH ALGORITHM VISUALIZER</div>
+        <h1>Campus Route Planner</h1>
+        <p>Manage campus places, routes, DFS paths and Dijkstra shortest routes.</p>
+      </div>
+      <div class="top-actions">
+        <button class="ghost-btn" id="exportBtn">Export Data</button>
+        <label class="ghost-btn file-btn">Import Data
+          <input id="importFile" type="file" accept=".json" hidden>
+        </label>
+        <button class="danger-outline" id="resetBtn">Reset</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <aside class="sidebar">
+        <section class="panel">
+          <div class="panel-title">
+            <span>Project Controls</span>
+            <span class="status-dot"></span>
+          </div>
+
+          <button class="primary-btn" id="addPlaceBtn">＋ Add Place / Building</button>
+          <button class="secondary-btn" id="addRouteBtn">＋ Add Route</button>
+
+          <div class="control-grid">
+            <button id="deletePlaceBtn">Delete Place</button>
+            <button id="deleteRouteBtn">Delete Route</button>
+            <button id="updateRouteBtn">Update Route</button>
+            <button id="showPlacesBtn">All Places</button>
+            <button id="showRoutesBtn">All Routes</button>
+          </div>
+        </section>
+
+        <section class="panel algorithm-panel">
+          <div class="panel-title">Algorithms</div>
+          <button class="algo-card" id="allPathsBtn">
+            <span class="algo-icon">DFS</span>
+            <span><b>All Possible Routes</b><small>Depth First Search</small></span>
+          </button>
+          <button class="algo-card" id="shortestBtn">
+            <span class="algo-icon">D</span>
+            <span><b>Shortest Route</b><small>Dijkstra Algorithm</small></span>
+          </button>
+        </section>
+
+        <section class="panel stats-panel">
+          <div class="panel-title">Network Summary</div>
+          <div class="stats">
+            <div><strong id="placeCount">0</strong><span>Places</span></div>
+            <div><strong id="routeCount">0</strong><span>Routes</span></div>
+            <div><strong id="edgeCost">0</strong><span>Total Edge Cost</span></div>
+          </div>
+        </section>
+
+        <section class="panel info-panel">
+          <div class="panel-title">How it maps to your C program</div>
+          <p><b>places[]</b> → JavaScript place list</p>
+          <p><b>graph[][]</b> → weighted adjacency matrix</p>
+          <p><b>findAllPaths()</b> → DFS route search</p>
+          <p><b>shortestPath()</b> → Dijkstra</p>
+          <p><b>data.txt</b> → browser localStorage</p>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <div class="workspace-head">
+          <div>
+            <h2>Campus Network</h2>
+            <p id="selectionHint">Click a node to select it. Use the route tools to run algorithms.</p>
+          </div>
+          <div class="legend">
+            <span><i class="legend-node"></i> Place</span>
+            <span><i class="legend-edge"></i> Route</span>
+            <span><i class="legend-active"></i> Selected Path</span>
+          </div>
+        </div>
+
+        <div class="graph-card">
+          <svg id="graphSvg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity=".22"/>
+              </filter>
+            </defs>
+            <g id="edgeLayer"></g>
+            <g id="nodeLayer"></g>
+          </svg>
+          <div class="empty-graph" id="emptyGraph">
+            <div class="empty-icon">◎</div>
+            <h3>No places yet</h3>
+            <p>Add buildings to start building your campus graph.</p>
+          </div>
+        </div>
+
+        <div class="result-grid">
+          <section class="panel result-panel">
+            <div class="panel-title">
+              <span>Algorithm Result</span>
+              <span id="resultBadge" class="badge">Ready</span>
+            </div>
+            <div id="resultContent" class="result-content">
+              <div class="result-empty">
+                <div class="big-symbol">↯</div>
+                <h3>Run an algorithm</h3>
+                <p>Select two places and choose DFS or Dijkstra.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel route-list-panel">
+            <div class="panel-title">
+              <span>Current Routes</span>
+              <span id="routeListCount" class="badge">0</span>
+            </div>
+            <div id="routeList" class="route-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
