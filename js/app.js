@@ -320,10 +320,6 @@ function renderGraph() {
     circle.setAttribute("cy", positions[i].y);
     circle.setAttribute("r", 25);
 
-    // Keep the numeric node ID inside the circle, and show the real
-    // place/building name directly beside the node. This keeps the
-    // internal graph indexing unchanged while making the visualization
-    // much easier to understand.
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", positions[i].x);
     text.setAttribute("y", positions[i].y + 4);
@@ -481,7 +477,6 @@ function runDFS() {
     `, "DFS • 0 paths");
   }
 
-  // Highlight the first discovered DFS path; all paths remain listed below.
   paths[0].forEach(n => activeNodes.add(n));
   for (let i = 1; i < paths[0].length; i++) activeEdges.add(edgeKey(paths[0][i-1], paths[0][i]));
   renderGraph();
@@ -614,14 +609,15 @@ function deletePlaceModal() {
   };
 }
 
+// এই ফাংশনটি আপডেট করা হয়েছে যেন ডাটা মুছে না যায়
 function resetData() {
-  localStorage.removeItem(STORAGE_KEY);
+  // আগের কোড: localStorage.removeItem(STORAGE_KEY); (এটি ডিলিট করে দেওয়া হয়েছে)
+  
   selectedNodes = [];
   clearHighlights();
-  loadSampleData();
   render();
-  setResult(`<div class="result-empty"><h3>Sample network restored.</h3><p>You can edit it or replace it with your own data.</p></div>`, "Reset");
-  toast("Sample network restored.");
+  setResult(`<div class="result-empty"><h3>View Reset</h3><p>Your saved data is intact.</p></div>`, "View Reset");
+  toast("View cleared, data kept safe.");
 }
 
 function exportData() {
